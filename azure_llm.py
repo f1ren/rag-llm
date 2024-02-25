@@ -1,6 +1,7 @@
 from langchain.text_splitter import Language
 from langchain_community.document_loaders.generic import GenericLoader
 from langchain_community.document_loaders.parsers import LanguageParser
+from tqdm import tqdm
 
 repo_path = "../commons-lang/"
 SUB_PATH = "src/main/java/org/apache/commons/lang3"
@@ -46,4 +47,7 @@ vector_store: AzureSearch = AzureSearch(
     embedding_function=embeddings.embed_query,
 )
 
-vector_store.add_documents(documents=texts)
+# vector_store.add_documents(documents=texts)
+
+for t in tqdm(texts, desc="Ingesting documents"):
+    vector_store.add_documents(documents=[t])
